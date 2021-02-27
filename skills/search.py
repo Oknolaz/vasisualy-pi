@@ -10,7 +10,10 @@ def main(say):
             for toExclude in excludeList:
                 say = say.replace(toExclude, '')
             toSpeak = "Сейчас найду."
-            webbrowser.open_new_tab(f"https://duckduckgo.com/{say}") # Поиск данного запроса в интернетах
+            try:
+                webbrowser.open_new_tab(f"https://duckduckgo.com/{say}") # Поиск данного запроса в интернетах
+            except Exception:
+                toSpeak = "Не удалось открыть браузер."
             break
         else:
             toSpeak = ""

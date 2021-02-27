@@ -3,6 +3,7 @@ from core import speak
 from core import talk
 import random
 import speech_recognition
+import time
 
 # Skills
 from skills import time_date
@@ -23,10 +24,15 @@ from skills import weather_no_city
 from skills import translate
 from skills import news
 from skills import coin
+from skills import upd_upg
+from skills import todolist
+from skills import shoplist
+from skills import netconnection
 
-wrong = ("Простите, я вас не понимаю.", "Мне кажется вы несёте какой-то бред.", "Что?", "Вы, наверное, ошиблись. Я вас не понимаю.", "Извините, я появился совсем недавно, я пока понимаю очень мало слов.", "Чего?", "А? Что? Я Вас не понимаю.", "Пожалуйста, не говорите слов, которых я незнаю.", "Вы пытаетесь оскорбить меня этим?", "Не издевайтесь надо мной, я знаю не так много слов.", "Извините, я не могу Вас понять.", "А?", "Объясните попроще.", "Пожалуйста, прочитайте моё описание. Скорее всего я не умею делать то, что вы меня просите или попробуйте использовать синонимы.", "Вы ошиблись.") # Ответы на неизвестную команду.
+wrong = ("Простите, я вас не понимаю.", "Мне кажется вы несёте какой-то бред.", "Что?", "Вы, наверное, ошиблись. Я вас не понимаю.", "Извините, я появился совсем недавно, я пока понимаю очень мало слов.", "Чего?", "А? Что? Я Вас не понимаю.", "Пожалуйста, не говорите слов, которых я незнаю.", "Вы пытаетесь оскорбить меня этим?", "Не издевайтесь надо мной, я знаю не так много слов.", "Извините, я не могу Вас понять.", "А?", "Объясните попроще.", "Пожалуйста, прочитайте моё описание. Скорее всего я не умею делать то, что вы меня просите или попробуйте использовать синонимы.", "Вы ошиблись.", "Я не понимаю твоего вопроса.", "Мне не понятен твой вопрос.", "Не могу понять о чём ты говоришь.", "Я не понимаю.", "О чём ты?", "Я не могу распознать вопрос.") # Ответы на неизвестную команду.
 guessnum = ("Угадай число", "угадай число", "Поиграем в число", "поиграем в число", "Играть в угадай число", "играть в угадай число", "Играть в число", "играть в число", "Угадать число", "угадать число", "Угадывать число", "угадывать число")
 russian_roulette = ("Русская рулетка", "русская рулетка", "В русскую рулетку", "в русскую рулетку")
+code_words = ("Васисуалий", "васисуалий", "Васися", "васися", "Василий", "василий", "Васямба", "васямба", "Вася", "вася", "Васёк", "васёк", "Васис", "васис")
 
 # Настройки распознавания речи
 recognizer = speech_recognition.Recognizer()
@@ -56,12 +62,18 @@ class Main():
             print("[sys] Речь распознаётся...")
             try:
                 say = recognizer.recognize_google(say, language="ru-RU")
-                print(f"Вы: {say}")
-                say = say.capitalize()
+                say = str(say)
+                for code in code_words:
+                    if code in say:
+                        say.replace(code, "")
+                        say = say.lower()
+                        say = say.capitalize()
+                        print(f"Вы: {say}")
+                    else:
+                        print(f"Вы: {say}")
             except Exception:
                 say = ''
                 print("[sys] Не удалось распознать речь. Нет подключения к интернету или не подключен микрофон.")
-                speak.speak("Речь не распознана.")
         
             for i in guessnum:
                 if i in say:
@@ -132,8 +144,6 @@ class Main():
                 
             elif map.main(say) != "":
                 skillUse = True
-                self.dialog = map.OpenVasMap()
-                self.dialog.show()
                 
             elif wiki.main(say) != "":
                 skillUse = True
@@ -148,6 +158,18 @@ class Main():
                 skillUse = True
                 
             elif news.main(say) != "":
+                skillUse = True
+                
+            elif upd_upg.main(say) != "":
+                skillUse = True
+                
+            elif todolist.main(say) != "":
+                skillUse = True
+                
+            elif shoplist.main(say) != "":
+                skillUse = True
+                
+            elif netconnection.main(say) != "":
                 skillUse = True
             
             elif say == 'stop' or say == 'Stop' or say == 'Стоп' or say == 'стоп':

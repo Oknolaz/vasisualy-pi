@@ -46,7 +46,7 @@ setup(
     packages=find_packages(),
     
     package_data={
-        'assets': ['assets/shot.wav', 'assets/misfire.wav'],
+        'vasisualy': ['assets/shot.wav', 'assets/misfire.wav', 'music/test.wav'],
     },
 
     python_requires='>=3.7, <4',

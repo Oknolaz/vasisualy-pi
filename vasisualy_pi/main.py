@@ -31,16 +31,21 @@ from .skills import upd_upg
 from .skills import todolist
 from .skills import shoplist
 from .skills import netconnection
+from .skills import record
+from .skills import guess_num
+from .skills import rulette
 
 wrong = ("Простите, я вас не понимаю.", "Мне кажется вы несёте какой-то бред.", "Что?", "Вы, наверное, ошиблись. Я вас не понимаю.", "Извините, я появился совсем недавно, я пока понимаю очень мало слов.", "Чего?", "А? Что? Я Вас не понимаю.", "Пожалуйста, не говорите слов, которых я незнаю.", "Вы пытаетесь оскорбить меня этим?", "Не издевайтесь надо мной, я знаю не так много слов.", "Извините, я не могу Вас понять.", "А?", "Объясните попроще.", "Пожалуйста, прочитайте моё описание. Скорее всего я не умею делать то, что вы меня просите или попробуйте использовать синонимы.", "Вы ошиблись.", "Я не понимаю твоего вопроса.", "Мне не понятен твой вопрос.", "Не могу понять о чём ты говоришь.", "Я не понимаю.", "О чём ты?", "Я не могу распознать вопрос.") # Ответы на неизвестную команду.
-guessnum = ("Угадай число", "угадай число", "Поиграем в число", "поиграем в число", "Играть в угадай число", "играть в угадай число", "Играть в число", "играть в число", "Угадать число", "угадать число", "Угадывать число", "угадывать число")
-russian_roulette = ("Русская рулетка", "русская рулетка", "В русскую рулетку", "в русскую рулетку")
 code_words = ("Васисуалий", "васисуалий", "Васися", "васися", "Василий", "василий", "Васямба", "васямба", "Вася", "вася", "Васёк", "васёк", "Васис", "васис")
 
 # Настройки распознавания речи
 recognizer = speech_recognition.Recognizer()
 recognizer.pause_threshold = 0.5
 mph = speech_recognition.Microphone()
+
+randnum = -1
+isGuessNum = False
+isRuLette = False
 
 
 class Main():
@@ -77,35 +82,6 @@ class Main():
             except Exception:
                 say = ''
                 print("[sys] Не удалось распознать речь. Нет подключения к интернету или не подключен микрофон.")
-        
-            for i in guessnum:
-                if i in say:
-                    global randnum
-                    randnum = random.randint(0, 100)
-                    speak.speak("Я загадал число от 0 до 100. Угадай его.")
-                    self.isGuessNum = True
-                    skillUse = True
-                    guessTry = 0
-                    break
-                
-            for i in russian_roulette:
-                if i in say:
-                    global isRoulette
-                    skillUse = True
-                    bullet = random.choice([0, 0, 0, 0, 0, 1])
-                    speak.speak("Я первый стреляю, если хочешь выстрелить - скажи \"выстрел\".")
-                    self.isRoulette = True
-                    if bullet == 1:
-                        media=music.inst.media_new("assets/shot.wav")
-                        music.player.set_media(media)
-                        music.player.play()
-                        speak.speak("Ты выиграл.", self.listWidget)
-                        isRoulette = False
-                    else:
-                        media=music.inst.media_new("assets/misfire.wav")
-                        music.player.set_media(media)
-                        music.player.play()
-                        speak.speak("Выстрела нет. Твоя очередь.")
                 
             if time_date.main(say) != "":
                 speak.speak(time_date.main(say))
@@ -174,55 +150,29 @@ class Main():
                 
             elif netconnection.main(say) != "":
                 skillUse = True
+                
+            elif record.main(say) != "":
+                skillUse = True
+                
+            elif guess_num.isTriggered(say):
+                skillUse = True
+                global randnum, isGuessNum
+                randnum = guess_num.getRandomNum()
+                isGuessNum = guess_num.startGame(self.listWidget)
+            
+            elif rulette.isTriggered(say):
+                skillUse = True
+                global isRuLette
+                isRuLette = rulette.startGame()
             
             elif say == 'stop' or say == 'Stop' or say == 'Стоп' or say == 'стоп':
                 speak.tts_d.stop()
-                    
-            elif self.isGuessNum:
-                usrnum = -1
-                try:
-                    usrnum = int(say)
-                except Exception:
-                    pass
-                if usrnum == -1:
-                    pass
-                elif usrnum < randnum:
-                    speak.speak("Моё число больше.")
-                    self.guessTry += 1
-                elif usrnum > randnum:
-                    speak.speak("Моё число меньше.")
-                    self.guessTry += 1
-                elif usrnum == randnum:
-                    speak.speak(f"Поздравляю, ты выиграл затратив на это {str(self.guessTry+1)} попытки.")
-                    isGuessNum = False
-                    self.guessTry = 0
-                    
-            elif self.isRoulette:
-                if say == "Выстрел":
-                    bullet = random.choice([0, 0, 0, 0, 0, 1])
-                    if bullet == 1:
-                        speak.speak("Ты проиграл.")
-                        media = music.inst.media_new("assets/shot.wav")
-                        music.player.set_media(media)
-                        music.player.play()
-                        self.isRoulette = False
-                    else:
-                        media = music.inst.media_new("assets/misfire.wav")
-                        music.player.set_media(media)
-                        music.player.play()
-                        speak.speak("Кручу барабан...")
-                        bullet = random.choice([0, 0, 0, 0, 0, 1])
-                        if bullet == 1:
-                            speak.speak("Ты выиграл.")
-                            media = music.inst.media_new("assets/shot.wav")
-                            music.player.set_media(media)
-                            music.player.play()
-                            self.isRoulette = False
-                        else:
-                            media = music.inst.media_new("assets/misfire.wav")
-                            music.player.set_media(media)
-                            music.player.play()
-                            speak.speak("Теперь ты.")
+                
+            elif isGuessNum:
+                isGuessNum = guess_num.game(say, randnum, isGuessNum)
+            
+            elif isRuLette:
+                isRuLette = rulette.game(say)
                 
             else:
                 if talk.talk(say) != "" and not skillUse:

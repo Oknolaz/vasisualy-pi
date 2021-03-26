@@ -34,6 +34,8 @@ from .skills import netconnection
 from .skills import record
 from .skills import guess_num
 from .skills import rulette
+from .skills import math
+
 
 wrong = ("Простите, я вас не понимаю.", "Мне кажется вы несёте какой-то бред.", "Что?", "Вы, наверное, ошиблись. Я вас не понимаю.", "Извините, я появился совсем недавно, я пока понимаю очень мало слов.", "Чего?", "А? Что? Я Вас не понимаю.", "Пожалуйста, не говорите слов, которых я незнаю.", "Вы пытаетесь оскорбить меня этим?", "Не издевайтесь надо мной, я знаю не так много слов.", "Извините, я не могу Вас понять.", "А?", "Объясните попроще.", "Пожалуйста, прочитайте моё описание. Скорее всего я не умею делать то, что вы меня просите или попробуйте использовать синонимы.", "Вы ошиблись.", "Я не понимаю твоего вопроса.", "Мне не понятен твой вопрос.", "Не могу понять о чём ты говоришь.", "Я не понимаю.", "О чём ты?", "Я не могу распознать вопрос.") # Ответы на неизвестную команду.
 code_words = ("Васисуалий", "васисуалий", "Васися", "васися", "Василий", "василий", "Васямба", "васямба", "Вася", "вася", "Васёк", "васёк", "Васис", "васис")
@@ -83,75 +85,75 @@ class Main():
                 say = ''
                 print("[sys] Не удалось распознать речь. Нет подключения к интернету или не подключен микрофон.")
                 
-            if time_date.main(say) != "":
+            if time_date.main(say):
                 speak.speak(time_date.main(say))
                 skillUse = True
                 
-            elif exit.main(say) != "":
+            elif exit.main(say):
                 skillUse = True
                 
-            elif joke.main(say) != "":
+            elif joke.main(say):
                 speak.speak(joke.main(say))
                 skillUse = True
                 
-            elif weather.main(say) != "":
+            elif weather.main(say):
                 skillUse = True
                 
-            elif music.main(say) != "":
+            elif music.main(say):
                 skillUse = True
                 
-            elif open.main(say) != "":
+            elif open.main(say):
                 skillUse = True
                 
-            elif screenshot.main(say) != "":
+            elif screenshot.main(say):
                 skillUse = True
                 
-            elif search.main(say) != "":
+            elif search.main(say):
                 skillUse = True
                 
-            elif poweroff.main(say) != "":
+            elif poweroff.main(say):
                 skillUse = True
                 
-            elif ytvideo.main(say) != "":
+            elif ytvideo.main(say):
                 skillUse = True
                 
-            elif resay.main(say) != "":
+            elif resay.main(say):
                 skillUse = True
             
-            elif coin.main(say) != "":
+            elif coin.main(say):
                 skillUse = True
                 
-            elif map.main(say) != "":
+            elif map.main(say):
                 skillUse = True
                 
-            elif wiki.main(say) != "":
+            elif wiki.main(say):
                 skillUse = True
                 
-            elif location.main(say) != "":
+            elif location.main(say):
                 skillUse = True
             
-            elif weather_no_city.main(say) != "":
+            elif weather_no_city.main(say):
                 skillUse = True
             
-            elif translate.main(say) != "":
+            elif translate.main(say):
                 skillUse = True
                 
-            elif news.main(say) != "":
+            elif news.main(say):
                 skillUse = True
                 
-            elif upd_upg.main(say) != "":
+            elif upd_upg.main(say):
                 skillUse = True
                 
-            elif todolist.main(say) != "":
+            elif todolist.main(say):
                 skillUse = True
                 
-            elif shoplist.main(say) != "":
+            elif shoplist.main(say):
                 skillUse = True
                 
-            elif netconnection.main(say) != "":
+            elif netconnection.main(say):
                 skillUse = True
                 
-            elif record.main(say) != "":
+            elif record.main(say):
                 skillUse = True
                 
             elif guess_num.isTriggered(say):
@@ -164,6 +166,9 @@ class Main():
                 skillUse = True
                 global isRuLette
                 isRuLette = rulette.startGame()
+                
+            elif math.calculate(say):
+                skillUse = True
             
             elif say == 'stop' or say == 'Stop' or say == 'Стоп' or say == 'стоп':
                 speak.tts_d.stop()

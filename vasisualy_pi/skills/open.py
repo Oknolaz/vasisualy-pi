@@ -99,10 +99,11 @@ def main(say):
                         toSpeak = "Не удалось запустить центр приложений."
                             
             try:
-                app = say.replace(i, '')
-                app = app.replace(' ', '')
-                for toExclude in excludeList:
-                    app = app.replace(toExclude, '')
+                app = say.split()
+                open_index = app.index(i)
+                app = app[open_index+1:]
+                app = str(app)
+                app = app.replace(i, '').replace(' ', '').replace("[", "").replace("]", "").replace('\'', "")
                 subprocess.Popen(app)
                 toSpeak = f"Я открыл {app}."
             except Exception:

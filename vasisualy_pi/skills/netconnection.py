@@ -7,7 +7,7 @@ def main(say):
     for i in trigger:
         if i in say:
             try:
-                requests.get("http://google.com")
+                requests.get("https://gnu.org/")
                 toSpeak = "Имеется подключение к сети."
             except Exception:
                 toSpeak = "Нет подключения к сети."

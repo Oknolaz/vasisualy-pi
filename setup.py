@@ -8,7 +8,7 @@ long_description = (here / 'README.md').read_text(encoding='utf-8')
 setup(
     name='Vasisualy-Pi',
 
-    version='0.6.3',
+    version='0.6.5',
 
     description='Russian voice assistant for GNU/Linux. CLI version.',
     
@@ -46,15 +46,16 @@ setup(
     packages=find_packages(),
     
     package_data={
-        'vasisualy': ['assets/shot.wav', 'assets/misfire.wav', 'music/test.wav'],
+        'vasisualy': ['assets/shot.wav', 'assets/misfire.wav', 'music/test.wav', 'assets/beep.wav'],
     },
 
     python_requires='>=3.7, <4',
 
-    install_requires=['pyowm', 'python-vlc', 'pyaudio', 'translate', 'wikipedia', 'mss', 'qt-material', 'geocoder', 'beautifulsoup4', 'lxml', 'speechrecognition', 'pyqt5', 'pyqtwebengine', 'scipy', 'sounddevice', 'pyalsaaudio'],
+    install_requires=['pyowm', 'python-vlc', 'pyaudio', 'translate', 'wikipedia', 'mss', 'qt-material', 'geocoder', 'beautifulsoup4', 'lxml', 'speechrecognition', 'pyqt5', 'pyqtwebengine', 'scipy', 'sounddevice', 'pyalsaaudio', 'plyer'],
 
     project_urls={
         'Bug Reports': 'https://github.com/Oknolaz/vasisualy-pi/issues',
         'Source': 'https://github.com/Oknolaz/vasisualy-pi/',
+        'Releases': 'https://github.com/Oknolaz/vasisualy/releases/'
         },
 )

@@ -2,11 +2,11 @@ import random
 import vlc
 import os
 from ..core import speak
+from ..core import defaults
 
 inst = vlc.Instance()
-player=inst.media_player_new()
+player = inst.media_player_new()
 is_paused = False
-isInMusicDir = False
 musicIsPlayed = False
 
 trigger = ("Музыка", "музыка", "Включи музыку", "включи музыку", "Танцы", "танцы", "Танец", "танец", "Потанцуй", "потанцуй", "Хочу танцевать", "хочу танцевать", "Хочу плясать", "хочу плясать", "Музыку", "музыку", "Песня", "песня", "Включи песню", "включи песню", "Музычка", "музычка", "Музончик", "музончик", "Танцульки", "танцульки", "Радио", "радио", "Станция", "станция", "Рэдио", "рэдио", "Музыку", "музыку", "Музычку", "музычку", "Мьюзик", "мьюзик", "Танцуй", "танцуй", "Песню", "песню", "Зажги", "зажги", "Зажигай", "зажигай", "Зажгём", "зажгём", "Отжиг", "отжиг", "Музон", "музон", "Музло", "музло")
@@ -86,18 +86,23 @@ def main(say):
 
 
 def playFromDir():
-    global isInMusicDir, musicIsPlayed, usrPlayer
-    if isInMusicDir:
-        pass
-    else:
-        os.chdir("./music/")
-        isInMusicDir = True
-    playlist = os.listdir()
+    global musicIsPlayed, usrPlayer
+    try:
+        appDir = os.path.dirname(os.path.realpath(__file__))
+        os.chdir(f"{appDir}/../..")
+        config = open("vasisualy.conf", "r")
+        for line in config:
+            if "music:" in line:
+                musicDir = line.replace("music:", "")
+    except Exception:
+        musicDir = defaults.defaults["music"]
+    playlist = os.listdir(musicDir)  # Получение списка файлов из директории music в корне проекта
     if musicIsPlayed:
         usrPlayer.stop()
-        usrPlayer = vlc.MediaPlayer(random.choice(playlist))
+        usrPlayer = vlc.MediaPlayer(f'{musicDir}/{random.choice(playlist)}')
         usrPlayer.play()
     else:
-        usrPlayer = vlc.MediaPlayer(random.choice(playlist))
+        # Воспроизведение музыки из папки music
+        usrPlayer = vlc.MediaPlayer(f'{musicDir}/{random.choice(playlist)}')
         usrPlayer.play()
         musicIsPlayed = True

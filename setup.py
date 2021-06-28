@@ -47,6 +47,7 @@ setup(
     
     package_data={
         'vasisualy': ['assets/shot.wav', 'assets/misfire.wav', 'music/test.wav', 'assets/beep.wav'],
+        'vasisualy.skills.hello_world': ['hello_world.trigger']
     },
 
     python_requires='>=3.7, <4',

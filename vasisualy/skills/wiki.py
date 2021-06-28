@@ -1,7 +1,6 @@
 import wikipedia
 from ..core import speak
 from ..core import defaults
-import os
 
 # Команды вывода информации из википедии
 trigger = ("Что такое", "что такое", "Что это такое", "что это такое", "Чем является", "чем является", "Кем является",
@@ -26,14 +25,10 @@ def main(say):
             else:
                 try:
                     try:
-                        appDir = os.path.dirname(os.path.realpath(__file__))
-                        os.chdir(f"{appDir}/../..")
-                        config = open("vasisualy.conf", "r")
-                        for line in config:
-                            if "sentences:" in line:
-                                sentencesCount = int(line.replace("sentences:", ""))
-                    except Exception:
-                        sentencesCount = defaults.defaults["sentences"]
+                        sentencesCount = defaults.get_value("wiki_sentences")
+                    except FileNotFoundError:
+                        sentencesCount = defaults.defaults["wiki_sentences"]
+
                     answer = wikipedia.summary(question, sentences=sentencesCount)
                     toSpeak = answer
                 except Exception:

@@ -7,7 +7,7 @@ import random
 import speech_recognition
 
 # Skills
-from .skills import (skill_loader, time_date, exit, joke, weather, music, open, screenshot, search, poweroff, ytvideo,
+from .skills import (skill_loader, time_date, exit, weather, music, open, screenshot, search, poweroff, ytvideo,
                      resay, map, wiki, location, weather_no_city, translate, news, coin, upd_upg, shoplist, todolist,
                      netconnection, record, guess_num, rulette, math, audio, crystal_ball, random_num, timer,
                      old_skills)

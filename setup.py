@@ -8,7 +8,7 @@ long_description = (here / 'README.md').read_text(encoding='utf-8')
 setup(
     name='Vasisualy-Pi',
 
-    version='0.7.0',
+    version='0.8.0',
 
     description='Russian voice assistant for GNU/Linux. CLI version.',
     
@@ -47,12 +47,14 @@ setup(
     
     package_data={
         'vasisualy': ['assets/shot.wav', 'assets/misfire.wav', 'music/test.wav', 'assets/beep.wav'],
-        'vasisualy.skills.hello_world': ['hello_world.trigger']
+        'vasisualy.skills.hello_world': ['hello_world.trigger'],
+        'vasisualy.skills.jokes': ['jokes.trigger'],
+        'vasisualy.skills.guess_the_animal': ['guess_the_animal.trigger'],
     },
 
     python_requires='>=3.7, <4',
 
-    install_requires=['pyowm', 'python-vlc', 'pyaudio', 'translate', 'wikipedia', 'mss', 'qt-material', 'geocoder', 'beautifulsoup4', 'lxml', 'speechrecognition', 'pyqt5', 'pyqtwebengine', 'scipy', 'sounddevice', 'pyalsaaudio', 'plyer'],
+    install_requires=['pyowm', 'python-vlc', 'pyaudio', 'translate', 'wikipedia', 'mss', 'qt-material', 'geocoder', 'beautifulsoup4', 'lxml', 'speechrecognition', 'pyqt5', 'pyqtwebengine', 'scipy', 'sounddevice', 'pyalsaaudio', 'plyer', 'ru_word2number'],
 
     project_urls={
         'Bug Reports': 'https://github.com/Oknolaz/vasisualy-pi/issues',

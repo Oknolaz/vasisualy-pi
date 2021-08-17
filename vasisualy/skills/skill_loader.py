@@ -3,6 +3,7 @@ import sys
 from glob import glob
 import importlib
 from ..core import speak
+from ..utils.tmpdir import tmp
 
 
 def _get_skill_dirs():
@@ -50,14 +51,23 @@ def load():
         spec.loader.exec_module(mod)
 
 
-def run_skills(user_message):
+def run_skills(user_message, widget):
     # Активирует навыки
     result = ''
     for skill in _relation():
         result = sys.modules[skill].main(user_message)
 
         if result:
-            speak.speak(result)
+            speak.speak(result, widget)
             break
 
     return result
+
+
+def run_looped(user_message, widget):
+    with open(f"{tmp}/.skill_lock", 'r') as f:
+        # Получение первой строки файла блокировки в качестве имени навыка
+        skill_name = f.read()
+    result = sys.modules[skill_name].loop(user_message)
+
+    speak.speak(result, widget)

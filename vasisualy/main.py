@@ -2,9 +2,11 @@
 # -*- coding: utf-8 -*-
 
 # Core
-from .core import (speak, talk)
+from .core import (speak, talk, defaults)
+from ,utils.tmpdir import tmp
 import random
 import speech_recognition
+import os
 
 # Skills
 from .skills import (skill_loader, time_date, exit, weather, music, open, screenshot, search, poweroff, ytvideo,
@@ -27,7 +29,7 @@ code_words = ("Васисуалий", "васисуалий", "Васися", "�
 
 # Настройки распознавания речи
 recognizer = speech_recognition.Recognizer()
-recognizer.pause_threshold = 0.5
+recognizer.pause_threshold = 1
 mph = speech_recognition.Microphone()
 
 randnum = -1
@@ -79,9 +81,21 @@ class Main:
             recognizer.adjust_for_ambient_noise(source)
 
         while True:
-            say = self.recognise()
+            global tmp
 
-            if old_skills.old_skills_activate(say):
+            say = self.recognise()
+            skillUse = False
+
+            if os.path.exists(f"{tmp}/.skill_lock"):
+                # Если файл блокировки существует - сообщение пользователя
+                # передаётся запущенному циклу навыка.
+                skill_loader.run_looped(say, self.listWidget)
+                skillUse = True
+
+            elif skill_loader.run_skills(say):
+                skillUse = True
+
+            elif old_skills.old_skills_activate(say):
                 skillUse = True
                 
             elif guess_num.isTriggered(say):
@@ -94,9 +108,6 @@ class Main:
                 skillUse = True
                 global isRuLette
                 isRuLette = rulette.startGame()
-
-            elif skill_loader.run_skills(say):
-                skillUse = True
             
             elif say == 'stop' or say == 'Stop' or say == 'Стоп' or say == 'стоп':
                 speak.tts_d.stop()

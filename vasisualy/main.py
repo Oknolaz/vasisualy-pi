@@ -3,7 +3,7 @@
 
 # Core
 from .core import (speak, talk, defaults)
-from ,utils.tmpdir import tmp
+import vasisualy.utils as utils
 import random
 import speech_recognition
 import os
@@ -81,7 +81,7 @@ class Main:
             recognizer.adjust_for_ambient_noise(source)
 
         while True:
-            global tmp
+            tmp = utils.tmp
 
             say = self.recognise()
             skillUse = False

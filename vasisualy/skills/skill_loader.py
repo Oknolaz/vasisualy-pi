@@ -51,14 +51,14 @@ def load():
         spec.loader.exec_module(mod)
 
 
-def run_skills(user_message, widget):
+def run_skills(user_message):
     # Активирует навыки
     result = ''
     for skill in _relation():
         result = sys.modules[skill].main(user_message)
 
         if result:
-            speak.speak(result, widget)
+            speak.speak(result)
             break
 
     return result

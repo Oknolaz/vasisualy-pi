@@ -1,3 +1,4 @@
+
 pyowm
 python-vlc
 translate
@@ -12,5 +13,5 @@ pyqt5
 pyqtwebengine
 scipy
 sounddevice
-pyalsaaudio
 ru_word2number
+fuzzywuzzy

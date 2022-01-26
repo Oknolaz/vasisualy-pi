@@ -4,13 +4,10 @@ python-vlc
 translate
 wikipedia
 mss
-qt-material
 geocoder
 beautifulsoup4
 lxml
 speechrecognition
-pyqt5
-pyqtwebengine
 scipy
 sounddevice
 ru_word2number

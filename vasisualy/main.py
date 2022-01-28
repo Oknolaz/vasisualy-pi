@@ -89,7 +89,7 @@ class Main:
             if os.path.exists(f"{tmp}/.skill_lock"):
                 # Если файл блокировки существует - сообщение пользователя
                 # передаётся запущенному циклу навыка.
-                skill_loader.run_looped(say, self.listWidget)
+                skill_loader.run_looped(say)
                 skillUse = True
 
             elif skill_loader.run_skills(say):
